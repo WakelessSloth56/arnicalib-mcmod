@@ -11,9 +11,9 @@ out
 *.ipr
 *.iws
 *.iml
+.idea/*
 !.idea/copyright
 !.idea/scopes
-.idea
 
 # gradle
 build

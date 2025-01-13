@@ -1,0 +1,6 @@
+<component name="CopyrightManager">
+  <copyright>
+    <option name="notice" value="Copyright (C) &amp;#36;originalComment.match(&quot;Copyright \(C\) (\d+)&quot;, 1, &quot;-&quot;, &quot;&amp;#36;today.year&quot;)&amp;#36;today.year AUIOC.ORG&#10;&#10;This file is part of &amp;#36;project.name, a mod made for Minecraft.&#10;&#10;&amp;#36;project.name is free software: you can redistribute it and/or modify it under&#10;the terms of the GNU General Public License as published by the Free&#10;Software Foundation, either version 3 of the License, or (at your option)&#10;any later version.&#10;&#10;This program is distributed in the hope that it will be useful, but WITHOUT&#10;ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or&#10;FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for&#10;more details.&#10;&#10;You should have received a copy of the GNU General Public License along with&#10;this program. If not, see &lt;https://www.gnu.org/licenses/&gt;." />
+    <option name="myName" value="auioc.mcmod:gplv3" />
+  </copyright>
+</component>
