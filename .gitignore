@@ -11,18 +11,15 @@ out
 *.ipr
 *.iws
 *.iml
+!.idea/copyright
+!.idea/scopes
 .idea
-
-# vscode
-.vscode
 
 # gradle
 build
 .gradle
 
 # other
-**/test/DevTest*.java
-src/generated
 eclipse
 run
 runs

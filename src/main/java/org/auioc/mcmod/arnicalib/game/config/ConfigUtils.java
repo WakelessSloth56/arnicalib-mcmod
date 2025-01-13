@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022-2024 AUIOC.ORG
+ * Copyright (C) 2024-2025 AUIOC.ORG
  *
  * This file is part of ArnicaLib, a mod made for Minecraft.
  *
@@ -18,6 +18,7 @@
  */
 
 package org.auioc.mcmod.arnicalib.game.config;
+
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -62,7 +63,7 @@ public class ConfigUtils {
     }
 
     public static ConfigValue<List<? extends String>> defineStringList(Builder specBuilder, String path) {
-        return defineList(specBuilder, path, (o) -> o instanceof String);
+        return defineList(specBuilder, path, String.class::isInstance);
     }
 
     public static ConfigValue<List<? extends String>> defineStringList(Builder specBuilder, String path, List<String> allowedValues) {
@@ -109,7 +110,7 @@ public class ConfigUtils {
         return false;
     }
 
-    public static <T> boolean validateStringList(Object o, List<String> allowed) {
+    public static boolean validateStringList(Object o, List<String> allowed) {
         return validateListElements(o, String.class, allowed);
     }
 

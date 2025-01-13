@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022-2024 AUIOC.ORG
+ * Copyright (C) 2022-2025 AUIOC.ORG
  *
  * This file is part of ArnicaLib, a mod made for Minecraft.
  *
@@ -19,6 +19,7 @@
 
 package org.auioc.mcmod.arnicalib.base.math;
 
+@SuppressWarnings("deprecation")
 public class NumberUtils extends org.apache.commons.lang3.math.NumberUtils {
 
     public static String toBinaryString(int i, int s) {

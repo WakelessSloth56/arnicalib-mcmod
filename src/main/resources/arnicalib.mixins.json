@@ -1,0 +1,16 @@
+{
+    "required": true,
+    "package": "org.auioc.mcmod.arnicalib.mod.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "mixins": [
+        "MixinServerHandshakePacketListenerImpl",
+        "MixinFoodProperties",
+        "MixinPistonBaseBlock"
+    ],
+    "client": [],
+    "server": [],
+    "injectors": {
+        "defaultRequire": 1
+    },
+    "minVersion": "0.8"
+}

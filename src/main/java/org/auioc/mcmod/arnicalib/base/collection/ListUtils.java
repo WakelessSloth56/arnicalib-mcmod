@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022-2024 AUIOC.ORG
+ * Copyright (C) 2022-2025 AUIOC.ORG
  *
  * This file is part of ArnicaLib, a mod made for Minecraft.
  *
@@ -19,19 +19,12 @@
 
 package org.auioc.mcmod.arnicalib.base.collection;
 
-import org.apache.commons.lang3.Validate;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 public class ListUtils {
-
-    public static <T> T getLast(List<T> list) {
-        Validate.notEmpty(list);
-        return list.get(list.size() - 1);
-    }
 
     public static <T> Optional<T> getOptional(List<T> list, int index) {
         return (index >= 0 && index < list.size()) ? Optional.ofNullable(list.get(index)) : Optional.empty();
@@ -41,6 +34,7 @@ public class ListUtils {
         return (index >= 0 && index < list.size()) ? list.get(index) : defaultValue;
     }
 
+    // ============================================================================================================== //
 
     public static <T> int indexOf(List<T> list, Predicate<T> predicate, int ordinal) {
         for (int i = 0, l = list.size(); i < l; ++i) {
@@ -77,6 +71,7 @@ public class ListUtils {
             .toArray();
     }
 
+    // ============================================================================================================== //
 
     public static <T> List<T> findAll(List<T> list, Predicate<T> predicate) {
         return list.stream().filter(predicate).toList();
@@ -94,6 +89,7 @@ public class ListUtils {
         return getOptional(list, lastIndexOf(list, predicate, ordinal));
     }
 
+    // ============================================================================================================== //
 
     public static <T> boolean add(List<T> list, int index, T element) {
         if (index > list.size() || index < 0) return false;

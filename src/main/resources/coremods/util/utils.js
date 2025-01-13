@@ -1,3 +1,22 @@
+/*
+ * Copyright (C) 2024-2025 AUIOC.ORG
+ *
+ * This file is part of ArnicaLib, a mod made for Minecraft.
+ *
+ * ArnicaLib is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 var ASMAPI = Java.type('net.neoforged.coremod.api.ASMAPI');
 var Opcodes = Java.type('org.objectweb.asm.Opcodes');
 var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
@@ -12,9 +31,6 @@ var FieldInsnNode = Java.type('org.objectweb.asm.tree.FieldInsnNode');
 var MethodInsnNode = Java.type('org.objectweb.asm.tree.MethodInsnNode');
 var LocalVariableNode = Java.type('org.objectweb.asm.tree.LocalVariableNode');
 
-/**
- * @param {MethodNode} method
- */
 function printMethodNode(method) {
     print(ASMAPI.methodNodeToString(method));
 }
@@ -168,120 +184,62 @@ function addLocalVariable(method, name, desc, sig, start, end, index) {
     method.localVariables.add(new LocalVariableNode(name, desc, sig, start, end, index));
 }
 
-/**
- * @param {MethodNode} method
- * @param {number} max
- */
 function setMaxLocals(method, max) {
     method.visitMaxs(method.maxStack, max);
 }
 
-/**
- * @param {number} index
- * @return VarInsnNode
- */
+function label() {
+    return new LabelNode();
+}
+
 function aLoad(index) {
     return new VarInsnNode(Opcodes.ALOAD, index);
 }
 
-/**
- * @param {number} index
- * @return VarInsnNode
- */
 function aStore(index) {
     return new VarInsnNode(Opcodes.ASTORE, index);
 }
 
-/**
- * @param {number} index
- * @return VarInsnNode
- */
 function iLoad(index) {
     return new VarInsnNode(Opcodes.ILOAD, index);
 }
 
-/**
- * @param {number} index
- * @return VarInsnNode
- */
 function iStore(index) {
     return new VarInsnNode(Opcodes.ISTORE, index);
 }
 
-/**
- * @param {LabelNode} label
- * @return JumpInsnNode
- */
 function ifNotEqual(label) {
     return new JumpInsnNode(Opcodes.IFNE, label);
 }
 
-/**
- * @param {LabelNode} label
- * @return JumpInsnNode
- */
 function ifEqual(label) {
     return new JumpInsnNode(Opcodes.IFEQ, label);
 }
 
-/**
- * @param {string} owner
- * @param {string} name
- * @param {string} desc
- * @return MethodInsnNode
- */
 function invokeSpecial(owner, name, desc) {
     return new MethodInsnNode(Opcodes.INVOKESPECIAL, owner, name, desc, false);
 }
 
-/**
- * @param {string} owner
- * @param {string} name
- * @param {string} desc
- * @return MethodInsnNode
- */
 function invokeStatic(owner, name, desc) {
     return new MethodInsnNode(Opcodes.INVOKESTATIC, owner, name, desc, false);
 }
 
-/**
- * @param {string} owner
- * @param {string} name
- * @param {string} desc
- * @return MethodInsnNode
- */
 function invokeVirtual(owner, name, desc) {
     return new MethodInsnNode(Opcodes.INVOKEVIRTUAL, owner, name, desc, false);
 }
 
-/**
- * @param {string} owner
- * @param {string} name
- * @param {string} desc
- * @return FieldInsnNode
- */
 function getField(owner, name, desc) {
     return new FieldInsnNode(Opcodes.GETFIELD, owner, name, desc);
 }
 
-/**
- * @param {string} desc
- * @return TypeInsnNode
- */
 function newObject(desc) {
     return new TypeInsnNode(Opcodes.NEW, desc);
 }
 
-/**
- * @return InsnNode
- */
 function dup() {
     return new InsnNode(Opcodes.DUP);
 }
 
-/**
- * @return FrameNode
- */
 function frameChop() {
     return new FrameNode(Opcodes.F_CHOP, 1, null, 0, null);
 }

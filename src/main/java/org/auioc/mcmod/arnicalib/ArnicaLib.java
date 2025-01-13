@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022-2024 AUIOC.ORG
+ * Copyright (C) 2022-2025 AUIOC.ORG
  *
  * This file is part of ArnicaLib, a mod made for Minecraft.
  *
@@ -22,38 +22,36 @@ package org.auioc.mcmod.arnicalib;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
-import org.apache.logging.log4j.Logger;
-import org.auioc.mcmod.arnicalib.base.log.LogUtil;
-import org.auioc.mcmod.arnicalib.game.mod.BuildInfo;
-import org.auioc.mcmod.arnicalib.game.mod.IHMod;
+import org.auioc.mcmod.arnicalib.game.util.BuildInfo;
 import org.auioc.mcmod.arnicalib.mod.Initialization;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 
 @Mod(ArnicaLib.MOD_ID)
-public final class ArnicaLib implements IHMod {
+public final class ArnicaLib {
 
     public static final String MOD_ID = "arnicalib";
     public static final String MOD_NAME = "ArnicaLib";
-    public static final Logger LOGGER = LogUtil.getLogger(MOD_NAME);
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
+    public static final Marker MARKER = MarkerFactory.getMarker("CORE");
     public static final BuildInfo BUILD_INFO = BuildInfo.fromPackage(ArnicaLib.class);
 
     private static IEventBus modEventBus;
 
     public ArnicaLib(IEventBus modEventBus) {
         ArnicaLib.modEventBus = modEventBus;
-        IHMod.validateVersion(BUILD_INFO, LOGGER);
+        BUILD_INFO.log(LOGGER, MARKER);
         Initialization.init();
     }
 
-    public static IEventBus getModEventBus() {
+    public static IEventBus modEventBus() {
         return modEventBus;
     }
 
     public static ResourceLocation id(String path) {
-        return new ResourceLocation(MOD_ID, path);
-    }
-
-    public static String i18n(String key) {
-        return MOD_ID + "." + key;
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 
 }

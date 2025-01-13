@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022-2024 AUIOC.ORG
+ * Copyright (C) 2022-2025 AUIOC.ORG
  *
  * This file is part of ArnicaLib, a mod made for Minecraft.
  *
@@ -18,6 +18,7 @@
  */
 
 package org.auioc.mcmod.arnicalib.game.advancement;
+
 
 import net.minecraft.advancements.AdvancementType;
 import net.minecraft.advancements.DisplayInfo;
@@ -89,7 +90,7 @@ public class DisplayInfoBuilder {
     }
 
     public DisplayInfoBuilder background(String background) {
-        background(new ResourceLocation(background));
+        background(ResourceLocation.parse(background));
         return this;
     }
 

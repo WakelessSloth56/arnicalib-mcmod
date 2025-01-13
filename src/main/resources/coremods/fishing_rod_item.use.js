@@ -1,6 +1,23 @@
-function initializeCoreMod() {
-    var LabelNode = Java.type('org.objectweb.asm.tree.LabelNode');
+/*
+ * Copyright (C) 2022-2025 AUIOC.ORG
+ *
+ * This file is part of ArnicaLib, a mod made for Minecraft.
+ *
+ * ArnicaLib is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <https://www.gnu.org/licenses/>.
+ */
 
+function initializeCoreMod() {
     Java.type('net.neoforged.coremod.api.ASMAPI').loadFile('coremods/util/utils.js');
 
     return {
@@ -9,42 +26,44 @@ function initializeCoreMod() {
                 type: 'METHOD',
                 class: 'net.minecraft.world.item.FishingRodItem',
                 methodName: 'use',
-                methodDesc: '(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/world/InteractionResultHolder;'
+                methodDesc: '(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/world/InteractionResult;'
             },
             transformer: function (methodNode) {
                 var insns = methodNode.instructions;
 
-                var startLabel = new LabelNode();
-                var endLabel = new LabelNode();
+                var startLabel = label();
+                var endLabel = label();
 
                 addLocalVariable(methodNode,
-                    'event', 'Lorg/auioc/mcmod/arnicalib/game/event/server/FishingRodCastEvent;', null,
-                    startLabel, endLabel, 7
+                    'event', 'Lorg/auioc/mcmod/arnicalib/game/event/FishingRodCastEvent;', null,
+                    startLabel, endLabel, 8
                 );
 
                 var injects = [
                     startLabel,
-                    aLoad(2),
-                    aLoad(4),
-                    iLoad(5),
-                    iLoad(6),
+                    aLoad(2), // p_41291_   (player)
+                    aLoad(4), // itemstack  (fishing rod)
+                    iLoad(6), // j          (time reduction)
+                    iLoad(7), // k          (luck bonus)
                     invokeStatic(
-                        'org/auioc/mcmod/arnicalib/mod/coremod/AHCoreModHandler', 'preFishingRodCast',
-                        '(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;II)Lorg/auioc/mcmod/arnicalib/game/event/server/FishingRodCastEvent;'
+                        'org/auioc/mcmod/arnicalib/mod/event/AHEventHooks',
+                        'preFishingRodCast',
+                        '(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;II)Lorg/auioc/mcmod/arnicalib/game/event/FishingRodCastEvent;'
                     ),
-                    aStore(7),
-                    aLoad(7),
+                    aStore(8), // [+] event FishingRodCastEvent
+                    aLoad(8),
                     invokeVirtual(
-                        'org/auioc/mcmod/arnicalib/game/event/server/FishingRodCastEvent', 'getSpeedBonus',
-                        '()I'
-                    ),
-                    iStore(5),
-                    aLoad(7),
-                    invokeVirtual(
-                        'org/auioc/mcmod/arnicalib/game/event/server/FishingRodCastEvent', 'getLuckBonus',
+                        'org/auioc/mcmod/arnicalib/game/event/FishingRodCastEvent',
+                        'getTimeReduction',
                         '()I'
                     ),
                     iStore(6),
+                    aLoad(8),
+                    invokeVirtual(
+                        'org/auioc/mcmod/arnicalib/game/event/FishingRodCastEvent', 'getLuckBonus',
+                        '()I'
+                    ),
+                    iStore(7),
                     endLabel
                 ];
 
@@ -62,64 +81,30 @@ function initializeCoreMod() {
 
 //! LocalVariableTable
 /*
-    Slot    Name        Signature
-    5       k           I
-    6       j           I
-    0       this        Lnet/minecraft/world/item/FishingRodItem;
-    2       pPlayer     Lnet/minecraft/world/entity/player/Player;
-    4       itemstack   Lnet/minecraft/world/item/ItemStack;
-+   7       event       Lorg/auioc/mcmod/hulsealib/game/event/server/PreFishingRodCastEvent;
+    Slot    Name            Signature
+    5       i               I
+    6       original        Lnet/minecraft/world/item/ItemStack;
+    6       j               I
+    7       k               I
+    5       serverlevel     Lnet/minecraft/server/level/ServerLevel;
+    0       this            Lnet/minecraft/world/item/FishingRodItem;
+    1       p_41290_        Lnet/minecraft/world/level/Level;
+    2       p_41291_        Lnet/minecraft/world/entity/player/Player;
+    3       p_41292_        Lnet/minecraft/world/InteractionHand;
+    4       itemstack       Lnet/minecraft/world/item/ItemStack;
++   8       event           Lorg/auioc/mcmod/arnicalib/game/event/FishingRodCastEvent;
 */
 
 //! Code
 /*
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
-        ItemStack itemstack = pPlayer.getItemInHand(pHand);
-        if (pPlayer.fishing != null) {
-            //_ ...
-        } else {
-            //_ ...
-            if (!pLevel.isClientSide) {
-                int k = EnchantmentHelper.getFishingSpeedBonus(itemstack);
-                int j = EnchantmentHelper.getFishingLuckBonus(itemstack);
-+               var event = AHCoreModHandler.preFishingRodCast(pPlayer, itemstack, k, j);
-+               k = event.getSpeedBonus();
-+               j = event.getLuckBonus();
-                pLevel.addFreshEntity(new FishingHook(pPlayer, pLevel, j, k));
-            }
-            //_ ...
-       }
-       //_ ...
+    public InteractionResult use(Level p_41290_, Player p_41291_, InteractionHand p_41292_) {
+        //_ ...
+            int j = (int)(EnchantmentHelper.getFishingTimeReduction(serverlevel, itemstack, p_41291_) * 20.0F);
+            int k = EnchantmentHelper.getFishingLuckBonus(serverlevel, itemstack, p_41291_);
++           var event = AHEventHooks.preFishingRodCast(p_41291_, itemstack, j, k);
++           j = event.getTimeReduction();
++           k = event.getLuckBonus();
+            Projectile.spawnProjectile(new FishingHook(p_41291_, p_41290_, k, j), serverlevel, itemstack);
+        //_ ...
     }
-*   ========== ByteCode ==========   *
-    //_ ...
-    L24
-        LINENUMBER 58 L24
-        ALOAD 4
-        INVOKESTATIC net/minecraft/world/item/enchantment/EnchantmentHelper.getFishingSpeedBonus (Lnet/minecraft/world/item/ItemStack;)I
-        ISTORE 5
-    L25
-        LINENUMBER 59 L25
-        ALOAD 4
-        INVOKESTATIC net/minecraft/world/item/enchantment/EnchantmentHelper.getFishingLuckBonus (Lnet/minecraft/world/item/ItemStack;)I
-        ISTORE 6
-    L26
-        LINENUMBER 60 L26
-+   L27
-+       ALOAD 2
-+       ALOAD 4
-+       ILOAD 5
-+       ILOAD 6
-+       INVOKESTATIC org/auioc/mcmod/arnicalib/mod/coremod/AHCoreModHandler.preFishingRodCast (Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;II)Lorg/auioc/mcmod/arnicalib/game/event/server/FishingRodCastEvent;
-+       ASTORE 7
-+       ALOAD 7
-+       INVOKEVIRTUAL org/auioc/mcmod/arnicalib/game/event/server/FishingRodCastEvent.getSpeedBonus ()I
-+       ISTORE 5
-+       ALOAD 7
-+       INVOKEVIRTUAL org/auioc/mcmod/arnicalib/game/event/server/FishingRodCastEvent.getLuckBonus ()I
-+       ISTORE 6
-+   L28
-    //_ ...
--   MAXLOCALS = 7
-+   MAXLOCALS = 8
 */

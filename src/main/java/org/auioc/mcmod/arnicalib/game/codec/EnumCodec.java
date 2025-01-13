@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022-2024 AUIOC.ORG
+ * Copyright (C) 2024-2025 AUIOC.ORG
  *
  * This file is part of ArnicaLib, a mod made for Minecraft.
  *
@@ -18,6 +18,7 @@
  */
 
 package org.auioc.mcmod.arnicalib.game.codec;
+
 
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
@@ -56,7 +57,7 @@ public class EnumCodec<E extends Enum<E>> implements Codec<E> {
     }
 
     private static <E extends Enum<E>> EnumCodec<E> of(ToStringFunction<E> encoder, StringFunction<E> decoder) {
-        return new EnumCodec<>(ExtraCodecs.stringResolverCodec(encoder, (s) -> (s != null) ? decoder.apply(s) : null));
+        return new EnumCodec<>(Codec.stringResolver(encoder, (s) -> (s != null) ? decoder.apply(s) : null));
     }
 
     private static <E extends Enum<E>> EnumCodec<E> of(E[] values, ToStringFunction<E> encoder, int threshold) {

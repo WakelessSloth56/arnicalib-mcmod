@@ -1,7 +1,3 @@
 {
-    "arnicalib.cross_bow_item.shoot_projectile": "coremods/cross_bow_item.shoot_projectile.js",
-    "arnicalib.fishing_rod_item.use": "coremods/fishing_rod_item.use.js",
-    "arnicalib.piston_base_block.is_pushable": "coremods/piston_base_block.is_pushable.js",
-    "arnicalib.item_stack.hurt": "coremods/item_stack.hurt.js",
-    "arnicalib.living_entity.add_eat_effect": "coremods/living_entity.add_eat_effect.js"
+    "arnicalib.fishing_rod_item.use": "coremods/fishing_rod_item.use.js"
 }

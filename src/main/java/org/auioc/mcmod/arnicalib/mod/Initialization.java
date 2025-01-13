@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022-2024 AUIOC.ORG
+ * Copyright (C) 2024-2025 AUIOC.ORG
  *
  * This file is part of ArnicaLib, a mod made for Minecraft.
  *
@@ -24,41 +24,31 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import org.auioc.mcmod.arnicalib.ArnicaLib;
-import org.auioc.mcmod.arnicalib.game.mod.ExtensionPointUtils;
-import org.auioc.mcmod.arnicalib.mod.client.ClientInitialization;
-import org.auioc.mcmod.arnicalib.mod.server.event.AHServerEventHandler;
-import org.auioc.mcmod.arnicalib.mod.server.loot.AHGlobalLootModifiers;
-import org.auioc.mcmod.arnicalib.mod.server.loot.AHLootItemConditions;
-import org.auioc.mcmod.arnicalib.mod.server.loot.AHLootItemFunctions;
-import org.auioc.mcmod.arnicalib.mod.server.tag.HTags;
 
-public final class Initialization {
+public class Initialization {
 
     public static void init() {
-        registerConfig();
         modSetup();
         forgeSetup();
         if (FMLEnvironment.dist == Dist.CLIENT) {
-            ClientInitialization.init();
+            //            ClientInitialization.init();
         } else {
-            ExtensionPointUtils.serverOnly();
+            //            ExtensionPointUtils.serverOnly();
         }
     }
 
-    private static final IEventBus modEventBus = ArnicaLib.getModEventBus();
+    private static final IEventBus modEventBus = ArnicaLib.modEventBus();
     private static final IEventBus forgeEventBus = NeoForge.EVENT_BUS;
 
-    private static void registerConfig() { }
-
     private static void modSetup() {
-        AHGlobalLootModifiers.GLOBAL_LOOT_MODIFIERS.register(modEventBus);
-        AHLootItemConditions.LOOT_CONDITION_TYPES.register(modEventBus);
-        AHLootItemFunctions.LOOT_FUNCTION_TYPES.register(modEventBus);
-        HTags.init();
+        //        AHGlobalLootModifiers.GLOBAL_LOOT_MODIFIERS.register(modEventBus);
+        //        AHLootItemConditions.LOOT_CONDITION_TYPES.register(modEventBus);
+        //        AHLootItemFunctions.LOOT_FUNCTION_TYPES.register(modEventBus);
+        //        HTags.init();
     }
 
     private static void forgeSetup() {
-        forgeEventBus.register(AHServerEventHandler.class);
+        //        forgeEventBus.register(AHServerEventHandler.class);
     }
 
 }
