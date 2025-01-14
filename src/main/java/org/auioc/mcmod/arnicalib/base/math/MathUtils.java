@@ -19,6 +19,8 @@
 
 package org.auioc.mcmod.arnicalib.base.math;
 
+import it.unimi.dsi.fastutil.floats.FloatUnaryOperator;
+
 import java.util.function.DoubleUnaryOperator;
 import java.util.function.IntUnaryOperator;
 
@@ -43,6 +45,17 @@ public class MathUtils {
     public static double sigma(int n, int k, DoubleUnaryOperator f) {
         double r = 0.0D;
         for (int i = k, _n = n + 1; i < _n; ++i) r += f.applyAsDouble((double) i);
+        return r;
+    }
+
+    /**
+     * @param n upper bound of the summation
+     * @param k lower bound of the summation
+     * @param f function to produce each term of the summation, the <i><code>index</code></i> is passed as parameter
+     */
+    public static float sigma(int n, int k, FloatUnaryOperator f) {
+        float r = 0.0F;
+        for (int i = k, _n = n + 1; i < _n; ++i) r += f.apply((float) i);
         return r;
     }
 
