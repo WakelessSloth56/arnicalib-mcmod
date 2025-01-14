@@ -27,7 +27,7 @@ jobs:
             -   name: Build with Gradle
                 run: |
                     chmod +x ./gradlew
-                    ./gradlew runData
+                    ./gradlew runServerData
                     ./gradlew build
                     echo "ARTIFACT_NAME=`cat ./build/tmp/artifact-name.txt`" >> $GITHUB_ENV
 

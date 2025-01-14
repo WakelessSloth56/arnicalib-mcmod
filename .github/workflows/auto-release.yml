@@ -49,7 +49,7 @@ jobs:
                     AUIOC_MAVEN_TOKEN: ${{secrets.AUIOC_MAVEN_TOKEN}}
                 run: |
                     chmod +x ./gradlew
-                    ./gradlew runData
+                    ./gradlew runServerData
                     ./gradlew build publish generateUpdateJson
                     mkdir ./pages
                     cp -r ./build/tmp/update/. ./pages/
