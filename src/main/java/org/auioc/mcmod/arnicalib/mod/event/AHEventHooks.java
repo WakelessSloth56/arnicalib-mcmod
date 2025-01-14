@@ -31,12 +31,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.common.ItemAbility;
 import net.neoforged.neoforge.common.NeoForge;
 import org.auioc.mcmod.arnicalib.game.event.FishingRodCastEvent;
+import org.auioc.mcmod.arnicalib.game.event.ItemAbilityCheckEvent;
 import org.auioc.mcmod.arnicalib.game.event.PistonPushableEvent;
 import org.auioc.mcmod.arnicalib.game.event.PlayerEatEvent;
 import org.auioc.mcmod.arnicalib.game.event.ServerLoginEvent;
 import org.auioc.mcmod.arnicalib.mod.mixin.MixinFoodProperties;
+import org.auioc.mcmod.arnicalib.mod.mixin.MixinIItemStackExtension;
 import org.auioc.mcmod.arnicalib.mod.mixin.MixinPistonBaseBlock;
 import org.auioc.mcmod.arnicalib.mod.mixin.MixinServerHandshakePacketListenerImpl;
 import org.slf4j.Marker;
@@ -97,6 +100,15 @@ public class AHEventHooks {
     public static boolean onPistonCheckPushable(BlockState blockState, Level level, BlockPos blockPos, Direction movement, boolean allowDestroy, Direction facing) {
         var event = new PistonPushableEvent(blockState, level, blockPos, movement, allowDestroy, facing);
         return BUS.post(event).isCanceled();
+    }
+
+    /**
+     * @see MixinIItemStackExtension#canPerformAction
+     */
+    public static boolean onCheckItemAbility(ItemStack item, ItemAbility ability) {
+        var event = new ItemAbilityCheckEvent(item, ability);
+        BUS.post(event);
+        return event.canPerformAction();
     }
 
 }
