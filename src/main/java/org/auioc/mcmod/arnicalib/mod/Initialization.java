@@ -24,6 +24,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import org.auioc.mcmod.arnicalib.ArnicaLib;
+import org.auioc.mcmod.arnicalib.mod.loot.AHLootItemConditions;
 
 public class Initialization {
 
@@ -41,8 +42,8 @@ public class Initialization {
     private static final IEventBus forgeEventBus = NeoForge.EVENT_BUS;
 
     private static void modSetup() {
+        AHLootItemConditions.TYPES.register(modEventBus);
         //        AHGlobalLootModifiers.GLOBAL_LOOT_MODIFIERS.register(modEventBus);
-        //        AHLootItemConditions.LOOT_CONDITION_TYPES.register(modEventBus);
         //        AHLootItemFunctions.LOOT_FUNCTION_TYPES.register(modEventBus);
         //        HTags.init();
     }
